@@ -1,86 +1,71 @@
-require_relative "tone"
+require_relative "accidentals"
+require_relative "white_keys"
 
 class Note
-  LETTERS = [:c, :d, :e, :f, :g, :a, :b].freeze
-  LETTER_TONE_INDICES = {
-    c: 0,
-    d: 2,
-    e: 4,
-    f: 5,
-    g: 7,
-    a: 9,
-    b: 11,
-  }.freeze
-
-  ACCIDENTAL_TONE_OFFSETS = {
-    double_flat: -2,
-    flat: -1,
-    natural: 0,
-    sharp: +1,
-    double_sharp: +2,
-  }.freeze
-  ACCIDENTALS_BY_OFFSET = ACCIDENTAL_TONE_OFFSETS.invert
-
-  ACCIDENTAL_SYMBOLS = {
-    double_flat: "𝄫",
-    flat: "♭",
-    natural: "♮",
-    sharp: "♯",
-    double_sharp: "𝄪",
-  }.freeze
-
-  attr_reader :letter, :accidental
-
-  def initialize(letter, accidental)
-    @letter = letter
-    @accidental = accidental
+  def self.random
+    white_key = WhiteKeys.sample
+    accidental = Accidentals.sample
+    new(white_key, accidental)
   end
 
-  def letter_index
-    LETTERS.find_index(letter)
-  end
+  attr_reader :white_key, :accidental
 
-  def letter_tone_index
-    LETTER_TONE_INDICES.fetch(letter)
-  end
-
-  def accidental_index
-    ACCIDENTAL_TONE_OFFSETS.fetch(accidental)
+  def initialize(white_key, accidental)
+    @white_key = WhiteKeys[white_key]
+    @accidental = Accidentals[accidental]
   end
 
   def tone_index
-    Tone.new(letter_tone_index + accidental_index).index
+    tone.index
+  end
+
+  def tone
+    white_key_tone + accidental_offset
+  end
+
+  def white_key_letter_index
+    white_key_letter.index
+  end
+
+  def white_key_letter_name
+    white_key_letter.value
+  end
+
+  def white_key_letter
+    white_key.letter
+  end
+
+  def white_key_tone_index
+    white_key_tone.index
+  end
+
+  def white_key_tone
+    white_key.tone
+  end
+
+  def accidental_offset
+    accidental.offset
   end
 
   def respell_with(letter_offset:)
     if letter_offset.zero?
       self
     else
-      respelled_letter_index = (letter_index + letter_offset) % LETTERS.length
-      respelled_letter = LETTERS.fetch(respelled_letter_index)
-      respelled_letter_tone_index = LETTER_TONE_INDICES.fetch(respelled_letter)
-      new_accidental_offset = tone_index - respelled_letter_tone_index
-      new_accidental = ACCIDENTALS_BY_OFFSET.fetch(new_accidental_offset)
-      self.class.new(respelled_letter, new_accidental)
+      respelled_white_key = white_key + letter_offset
+      accidental_offset = white_key_tone - respelled_white_key.tone
+      respelled_accidental = accidental + accidental_offset
+      self.class.new(respelled_white_key, respelled_accidental)
     end
   end
 
-  def to_tone
-    tone_index =
-      LETTER_TONE_INDICES.fetch(letter) +
-      ACCIDENTAL_TONE_OFFSETS.fetch(accidental)
-
-    Tone.new(tone_index)
-  end
-
   def ==(other)
-    other.is_a?(self.class) && to_tone == other.to_tone
+    other.is_a?(self.class) && tone == other.tone
   end
 
   def to_s
-    "#<Note letter: %s, accidental: %s>" % [
-      letter.to_s.upcase.inspect,
-      ACCIDENTAL_SYMBOLS.fetch(accidental).inspect,
+    "#<Note %s%s>" % [
+      white_key_letter_name.to_s.upcase,
+      accidental.symbol,
     ]
   end
 

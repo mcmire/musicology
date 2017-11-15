@@ -1,0 +1,2 @@
+class Letter < SimpleDelegator
+end

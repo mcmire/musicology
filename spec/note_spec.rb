@@ -3,58 +3,6 @@ require_relative "../lib/note"
 
 describe Note do
   describe "#respell_with" do
-    # context "given an accidental" do
-      # context "given the same accidental as the Note" do
-        # it "simply returns the Note" do
-          # note = described_class.new(:e, :flat)
-
-          # respelled_note = note.respell_with(accidental: :flat)
-
-          # expect(respelled_note).to be(note)
-        # end
-      # end
-
-      # context "given a sharp when the Note's accidental is a flat" do
-        # it "respells the note name by one letter behind" do
-          # note = described_class.new(:e, :flat)
-
-          # respelled_note = note.respell_with(accidental: :sharp)
-
-          # expect(respelled_note).to eq(Note.new(:d, :sharp))
-        # end
-      # end
-
-      # context "given a double sharp when the Note's accidental is a flat" do
-        # it "respells the note name by two letters behind" do
-          # note = described_class.new(:d, :flat)
-
-          # respelled_note = note.respell_with(accidental: :double_sharp)
-
-          # expect(respelled_note).to eq(Note.new(:b, :double_sharp))
-        # end
-      # end
-
-      # context "given a flat when the Note's accidental is a sharp" do
-        # it "respells the note name by one letter ahead" do
-          # note = described_class.new(:d, :sharp)
-
-          # respelled_note = note.respell_with(accidental: :flat)
-
-          # expect(respelled_note).to eq(Note.new(:e, :flat))
-        # end
-      # end
-
-      # context "given a double flat when the Note's accidental is a sharp" do
-        # it "respells the note name by two letters ahead" do
-          # note = described_class.new(:d, :sharp)
-
-          # respelled_note = note.respell_with(accidental: :double_flat)
-
-          # expect(respelled_note).to eq(Note.new(:f, :double_flat))
-        # end
-      # end
-    # end
-
     context "given a letter offset" do
       context "given an offset of 0" do
         it "simply returns the Note" do

@@ -6,7 +6,7 @@ describe HeptatonicScale do
   describe "#notes" do
     context "using a major scale" do
       it "returns the correct notes when starting from C" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone.new(index) }
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tones[index] }
         starting_note = Note.new(:c, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
@@ -16,7 +16,7 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a white key other than C" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone.new(index) }
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tones[index] }
         starting_note = Note.new(:a, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
@@ -26,7 +26,7 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a 'flat' black key" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone.new(index) }
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tones[index] }
         starting_note = Note.new(:b, :flat)
         scale = described_class.new(tones, starting_note: starting_note)
 
@@ -36,7 +36,7 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a 'sharp' black key" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone.new(index) }
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tones[index] }
         starting_note = Note.new(:f, :sharp)
         scale = described_class.new(tones, starting_note: starting_note)
 
