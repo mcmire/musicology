@@ -2,5 +2,7 @@
 
 require_relative "../lib/heptatonic_scale_generator"
 
-scale = HeptatonicScaleGenerator.new.call
-puts scale.notes.map(&:to_s).join(", ")
+scale = HeptatonicScaleGenerator.call
+spelled_notes = scale.notes.map(&:spelling)
+
+puts spelled_notes.join(", ")

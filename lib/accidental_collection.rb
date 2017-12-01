@@ -1,5 +1,6 @@
 require "forwardable"
 require_relative "accidental"
+require_relative "errors"
 
 class AccidentalCollection
   include Enumerable
@@ -8,33 +9,22 @@ class AccidentalCollection
   def_delegators :list, :each, :sample
 
   def initialize(accidental_specs)
-    @list = accidental_specs.map do |accidental_spec|
-      Accidental.new(self, **accidental_spec)
-    end
-
-    @list_by_name = list.reduce({}) do |hash, accidental|
-      hash.merge(accidental.name => accidental)
-    end
-
-    @list_by_offset = list.reduce({}) do |hash, accidental|
-      hash.merge(accidental.offset => accidental)
+    @list = accidental_specs.map do |name:, offset:, symbol:|
+      Accidental.new(self, name, offset, symbol)
     end
   end
 
-  def [](value)
-    case value
-    when Symbol
-      list_by_name.fetch(value)
-    when Integer
-      list_by_offset.fetch(value)
-    when Accidental
-      value
+  def find!(value)
+    accidental = list.detect { |a| a == value }
+
+    if accidental
+      accidental
     else
-      raise ArgumentError, "Couldn't find accidental by #{value.inspect}"
+      raise AccidentalNotFoundError.create(value: value)
     end
   end
 
   private
 
-  attr_reader :list, :list_by_name, :list_by_offset
+  attr_reader :list
 end

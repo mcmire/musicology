@@ -7,3 +7,7 @@ Accidentals = AccidentalCollection.new([
   { name: :sharp, offset: 1, symbol: "♯" },
   { name: :double_sharp, offset: 2, symbol: "𝄪" },
 ])
+
+def Accidental(value)
+  Accidentals.find!(value)
+end

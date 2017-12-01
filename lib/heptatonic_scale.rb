@@ -1,36 +1,22 @@
-require_relative "accidentals"
-require_relative "note"
 require_relative "scale_note"
-require_relative "white_keys"
+require_relative "note_names"
 
 class HeptatonicScale
-  def initialize(tones, starting_note: Note.new(:c, :natural))
-    @tones = tones
+  def initialize(tones, starting_note: NoteSpelling(:c, :natural))
+    @tones = tones.map { |tone| Tone(tone) }
     @starting_note = starting_note
-    @white_keys = WhiteKeys.transpose_to(starting_note)
+    @available_note_names = NoteNames.transpose_to(starting_note)
   end
 
   def notes
-    notes = notes_before_respelling
-    letter_offset = starting_note.white_key.letter - notes.first.white_key.letter
-
-    if letter_offset != 0
-      notes.map { |note| note.respell_with(letter_offset: letter_offset) }
-    else
-      notes
+    tones.map.with_index do |tone, letter_offset|
+      new_letter = starting_note.letter + letter_offset
+      note_spelling = available_note_names.find!(tone.index).find!(new_letter)
+      ScaleNote.new(note_spelling, tone)
     end
   end
 
   private
 
-  attr_reader :tones, :starting_note, :white_keys, :transposition_offset
-
-  def notes_before_respelling
-    tones.map.with_index do |tone, index|
-      white_key = white_keys.at(index)
-      accidental_offset = tone - white_key.tone
-      accidental = Accidentals[accidental_offset]
-      ScaleNote.new(white_key, accidental)
-    end
-  end
+  attr_reader :tones, :starting_note, :available_note_names
 end

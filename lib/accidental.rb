@@ -1,7 +1,9 @@
+require_relative "util"
+
 class Accidental
   attr_reader :name, :offset, :symbol
 
-  def initialize(accidentals, name:, offset:, symbol:)
+  def initialize(accidentals, name, offset, symbol)
     @accidentals = accidentals
     @name = name
     @offset = offset
@@ -9,18 +11,29 @@ class Accidental
   end
 
   def +(offset)
-    accidentals[self.offset + offset]
+    accidentals.find!(self.offset + offset)
   end
 
   def -(offset)
-    accidentals[self.offset - offset]
+    accidentals.find!(self.offset - offset)
+  end
+
+  def ==(value)
+    case value
+    when self.class
+      name == value.name && offset == value.offset && symbol == value.symbol
+    else
+      name == value || symbol == value || offset == value
+    end
+  end
+
+  def to_s
+    "#<#{self.class} #{symbol}>"
   end
 
   def inspect
     StringIO.new.tap { |io| PP.singleline_pp(self, io) }.string
   end
-
-  alias_method :to_s, :inspect
 
   def pretty_print(pp)
     Util.pretty_print_without_object_id(

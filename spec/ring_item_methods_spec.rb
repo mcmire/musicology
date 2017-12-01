@@ -7,13 +7,13 @@ describe RingItemMethods do
     it "returns the RingItem N indices clockwise around the ring" do
       ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d"])
 
-      expect(ring["a"] + 2).to eq(ring["c"])
+      expect(ring.find!("a") + 2).to eq(ring.find!("c"))
     end
 
     it "wraps around the ring if necessary" do
       ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d"])
 
-      expect(ring["c"] + 2).to eq(ring["a"])
+      expect(ring.find!("c") + 2).to eq(ring.find!("a"))
     end
   end
 
@@ -22,13 +22,13 @@ describe RingItemMethods do
       it "returns the RingItem N indices counterclockwise around the ring" do
         ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d"])
 
-        expect(ring["c"] - 2).to eq(ring["a"])
+        expect(ring.find!("c") - 2).to eq(ring.find!("a"))
       end
 
       it "wraps around the ring if necessary" do
         ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d"])
 
-        expect(ring["a"] - 1).to eq(ring["d"])
+        expect(ring.find!("a") - 1).to eq(ring.find!("d"))
       end
     end
 
@@ -37,9 +37,12 @@ describe RingItemMethods do
       context "whose index is greater than this RingItem" do
         context "when crossing the start of the ring to get to that RingItem" do
           it "returns the correct difference" do
-            ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d", "e", "f", "g"])
+            ring = Ring.new(
+              TestRingItemWrapper,
+              ["a", "b", "c", "d", "e", "f", "g"],
+            )
 
-            expect(ring["a"] - ring["g"]).to eq(1)
+            expect(ring.find!("a") - ring.find!("g")).to eq(1)
           end
         end
 
@@ -47,7 +50,7 @@ describe RingItemMethods do
           it "returns the correct difference" do
             ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d"])
 
-            expect(ring["a"] - ring["c"]).to eq(-2)
+            expect(ring.find!("a") - ring.find!("c")).to eq(-2)
           end
         end
       end
@@ -55,17 +58,23 @@ describe RingItemMethods do
       context "whose index is less than this RingItem" do
         context "when crossing the start of the ring to get to that RingItem" do
           it "returns the correct difference" do
-            ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d", "e", "f", "g"])
+            ring = Ring.new(
+              TestRingItemWrapper,
+              ["a", "b", "c", "d", "e", "f", "g"],
+            )
 
-            expect(ring["g"] - ring["c"]).to eq(-3)
+            expect(ring.find!("g") - ring.find!("c")).to eq(-3)
           end
         end
 
         context "when not crossing the start of the ring to get to that RingItem" do
           it "returns the correct difference" do
-            ring = Ring.new(TestRingItemWrapper, ["a", "b", "c", "d", "e", "f", "g"])
+            ring = Ring.new(
+              TestRingItemWrapper,
+              ["a", "b", "c", "d", "e", "f", "g"],
+            )
 
-            expect(ring["d"] - ring["c"]).to eq(1)
+            expect(ring.find!("d") - ring.find!("c")).to eq(1)
           end
         end
       end

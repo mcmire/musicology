@@ -1,16 +1,25 @@
-require_relative "note"
+require_relative "note_names"
+require_relative "tones"
 
-class ScaleNote < Note
-  def to_s
-    symbol = accidental.symbol
-    string = white_key.letter.to_s.upcase
+class ScaleNote
+  attr_reader :spelling, :tone
 
-    if accidental.name != :natural
-      string << symbol
-    end
-
-    string
+  def initialize(spelling, tone)
+    @spelling = spelling
+    @tone = Tone(tone)
   end
 
-  alias_method :inspect, :to_s
+  def ==(other)
+    other.is_a?(self.class) &&
+      spelling == other.spelling &&
+      tone == other.tone
+  end
+
+  def to_s
+    "%s (%d)" % [spelling.to_s, tone]
+  end
+
+  def inspect
+    "#<%s %s>" % [self.class, to_s]
+  end
 end

@@ -27,29 +27,40 @@ class Ring
     items[index % size]
   end
 
-  def [](value_or_index)
+  def find!(*args)
     result =
-      case value_or_index
-      when wrapper_class
-        value_or_index
-      when Integer
-        items[value_or_index % size]
+      if args.size == 1
+        case args.first
+        when wrapper_class
+          args.first
+        when Integer
+          items[args.first % size]
+        else
+          items.detect { |i| i == args.first }
+        end
       else
-        items.detect { |i| i == value_or_index }
+        items.detect { |i| i == args }
       end
 
     if result
       result
     else
       message =
-        "Couldn't find item by #{value_or_index.inspect}. " +
-        "Valid items are: #{items.inspect}"
+        "Couldn't find item by #{args.inspect}.\n" +
+        "Valid items are:\n" +
+        items.map { |item| "* #{item}" }.join("\n")
       raise ArgumentError.new(message)
     end
   end
 
   def inspect
     StringIO.new.tap { |io| PP.singleline_pp(self, io) }.string
+  end
+
+  def transpose_to(value)
+    item = find!(value)
+    values = items.rotate(item.index).map(&:value)
+    self.class.new(wrapper_class, values)
   end
 
   alias_method :to_s, :inspect
