@@ -7,7 +7,7 @@ module Musicology
     def initialize(tones, starting_note: Musicology.NoteSpelling(:c, :natural))
       @tones = tones.map { |tone| Musicology.Tone(tone) }
       @starting_note = starting_note
-      @available_note_names = NoteNames.transpose_to(starting_note)
+      @available_note_names = Musicology.note_names.transpose_to(starting_note)
     end
 
     def notes

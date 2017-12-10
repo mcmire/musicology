@@ -12,7 +12,10 @@ module Musicology
     WHOLE_INTERVAL = 2
 
     def call
-      HeptatonicScale.new(tones, starting_note: SimpleNoteSpellings.sample)
+      HeptatonicScale.new(
+        tones,
+        starting_note: Musicology.simple_note_spellings.sample,
+      )
     end
 
     private

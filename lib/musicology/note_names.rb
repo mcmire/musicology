@@ -2,7 +2,11 @@ require_relative "ring"
 require_relative "equivalent_note_spelling_group"
 
 module Musicology
-  NoteNames = Ring.new(EquivalentNoteSpellingGroup, [
+  class << self
+    attr_accessor :note_names
+  end
+
+  self.note_names = Ring.new(EquivalentNoteSpellingGroup, [
     [[:b, :sharp], [:c, :natural], [:d, :double_flat]],
     [[:b, :double_sharp], [:c, :sharp], [:d, :flat]],
     [[:c, :double_sharp], [:d, :natural], [:e, :double_flat]],
@@ -18,6 +22,6 @@ module Musicology
   ])
 
   def self.NoteSpelling(letter, accidental)
-    NoteNames.find!(letter, accidental).find!(letter)
+    note_names.find!(letter, accidental).find!(letter)
   end
 end

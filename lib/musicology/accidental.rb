@@ -50,8 +50,4 @@ module Musicology
 
     attr_reader :accidentals
   end
-
-  def self.Accidental(value)
-    Accidentals.find!(value)
-  end
 end
