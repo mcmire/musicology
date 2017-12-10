@@ -9,9 +9,13 @@ class EquivalentNoteSpellingGroup
     end
   end
 
-  def find!(letter_id)
-    letter = Letter(letter_id)
-    spelling = spellings.detect { |s| s.letter == letter }
+  def find!(letter_id = nil, &block)
+    if block
+      spelling = spellings.detect(&block)
+    else
+      letter = Letter(letter_id)
+      spelling = spellings.detect { |s| s.letter == letter }
+    end
 
     if spelling
       spelling

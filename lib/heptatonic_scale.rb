@@ -9,10 +9,18 @@ class HeptatonicScale
   end
 
   def notes
-    tones.map.with_index do |tone, letter_offset|
-      new_letter = starting_note.letter + letter_offset
-      note_spelling = available_note_names.find!(tone.index).find!(new_letter)
-      ScaleNote.new(note_spelling, tone)
+    tones.reduce([]) do |notes, tone|
+      if tone == 0
+        notes << ScaleNote.new(starting_note, tone)
+      else
+        note_name = available_note_names.find!(tone.index)
+
+        note_spelling = note_name.spellings.detect do |spelling|
+          spelling.letter == notes.last.spelling.letter + 1
+        end
+
+        notes << ScaleNote.new(note_spelling, tone)
+      end
     end
   end
 

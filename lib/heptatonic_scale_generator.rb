@@ -1,5 +1,5 @@
 require_relative "heptatonic_scale"
-require_relative "note_spellings"
+require_relative "simple_note_spellings"
 require_relative "tones"
 
 class HeptatonicScaleGenerator
@@ -11,7 +11,7 @@ class HeptatonicScaleGenerator
   WHOLE_INTERVAL = 2
 
   def call
-    HeptatonicScale.new(tones, starting_note: NoteSpellings.sample)
+    HeptatonicScale.new(tones, starting_note: SimpleNoteSpellings.sample)
   end
 
   private
