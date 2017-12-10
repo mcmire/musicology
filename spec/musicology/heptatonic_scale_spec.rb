@@ -87,6 +87,16 @@ describe Musicology::HeptatonicScale do
           ["F♯", "G♯", "A", "B", "C♯", "D", "E♯"],
         )
       end
+
+      it "returns the correct notes when some letters need to be repeated" do
+        tones = [0, 2, 4, 5, 6, 7, 9].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:c, :flat)
+        scale = described_class.new(tones, starting_note: starting_note)
+
+        expect(spell(scale)).to eq(
+          ["C♭", "D♭", "E♭", "F♭", "G𝄫", "G♭", "A♭"],
+        )
+      end
     end
   end
 

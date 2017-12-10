@@ -21,6 +21,10 @@ module Musicology
             spelling.letter == notes.last.spelling.letter + 1
           end
 
+          note_spelling ||= note_name.spellings.detect do |spelling|
+            spelling.letter == notes.last.spelling.letter
+          end
+
           notes << ScaleNote.new(note_spelling, tone)
         end
       end
