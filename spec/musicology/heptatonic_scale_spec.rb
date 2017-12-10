@@ -1,13 +1,14 @@
 require "spec_helper"
-require_relative "../lib/tone"
-require_relative "../lib/heptatonic_scale"
+require_relative "../../lib/musicology/heptatonic_scale"
+require_relative "../../lib/musicology/note_names"
+require_relative "../../lib/musicology/tones"
 
-describe HeptatonicScale do
+describe Musicology::HeptatonicScale do
   describe "#notes" do
     context "using a major scale" do
       it "returns the correct notes when starting from C" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:c, :natural)
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:c, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -16,8 +17,8 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a white key other than C" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:a, :natural)
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:a, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -26,8 +27,8 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a 'flat' black key" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:b, :flat)
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:b, :flat)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -36,8 +37,8 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a 'sharp' black key" do
-        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:f, :sharp)
+        tones = [0, 2, 4, 5, 7, 9, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:f, :sharp)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -48,8 +49,8 @@ describe HeptatonicScale do
 
     context "using a harmonic minor scale" do
       it "returns the correct notes when starting from C" do
-        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:c, :natural)
+        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:c, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -58,8 +59,8 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a white key other than C" do
-        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:a, :natural)
+        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:a, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -68,8 +69,8 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a 'flat' black key" do
-        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:b, :flat)
+        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:b, :flat)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(
@@ -78,8 +79,8 @@ describe HeptatonicScale do
       end
 
       it "returns the correct notes when starting from a 'sharp' black key" do
-        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Tone(index) }
-        starting_note = NoteSpelling(:f, :sharp)
+        tones = [0, 2, 3, 5, 7, 8, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:f, :sharp)
         scale = described_class.new(tones, starting_note: starting_note)
 
         expect(spell(scale)).to eq(

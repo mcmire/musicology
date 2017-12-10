@@ -1,7 +1,7 @@
 require "spec_helper"
-require_relative "../lib/ring"
+require_relative "../../lib/musicology/ring"
 
-describe Ring do
+describe Musicology::Ring do
   describe "#at" do
     it "returns the wrapped object that matches the given index" do
       ring = described_class.new(TestRingItemWrapper, ["a", "b"])

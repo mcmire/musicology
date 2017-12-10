@@ -1,7 +1,8 @@
 require "spec_helper"
-require_relative "../lib/accidental_collection"
+require_relative "../../lib/musicology/accidental_collection"
+require_relative "../../lib/musicology/accidental"
 
-describe AccidentalCollection do
+describe Musicology::AccidentalCollection do
   describe "#find!" do
     context "given an Accidental" do
       context "that matches one in the AccidentalCollection" do
@@ -10,7 +11,7 @@ describe AccidentalCollection do
             { name: :double_flat, offset: 2, symbol: "𝄫" },
           ])
 
-          accidental = Accidental.new(nil, :double_flat, 2, "𝄫")
+          accidental = Musicology::Accidental.new(nil, :double_flat, 2, "𝄫")
 
           expect(accidental_collection.find!(accidental)).to eq(accidental)
         end
@@ -22,10 +23,10 @@ describe AccidentalCollection do
             { name: :double_flat, offset: 2, symbol: "𝄫" },
           ])
 
-          accidental = Accidental.new(nil, :sharp, 1, "♯")
+          accidental = Musicology::Accidental.new(nil, :sharp, 1, "♯")
 
           expect(-> { accidental_collection.find!(accidental) }).
-            to raise_error(AccidentalNotFoundError)
+            to raise_error(Musicology::AccidentalNotFoundError)
         end
       end
     end
@@ -38,7 +39,7 @@ describe AccidentalCollection do
           ])
 
           expect(accidental_collection.find!(:double_flat)).
-            to eq(Accidental.new(nil, :double_flat, 2, "𝄫"))
+            to eq(Musicology::Accidental.new(nil, :double_flat, 2, "𝄫"))
         end
       end
 
@@ -49,7 +50,7 @@ describe AccidentalCollection do
           ])
 
           expect(-> { accidental_collection.find!(:sharp) }).
-            to raise_error(AccidentalNotFoundError)
+            to raise_error(Musicology::AccidentalNotFoundError)
         end
       end
     end
@@ -62,7 +63,7 @@ describe AccidentalCollection do
           ])
 
           expect(accidental_collection.find!(2)).
-            to eq(Accidental.new(nil, :double_flat, 2, "𝄫"))
+            to eq(Musicology::Accidental.new(nil, :double_flat, 2, "𝄫"))
         end
       end
 
@@ -73,7 +74,7 @@ describe AccidentalCollection do
           ])
 
           expect(-> { accidental_collection.find!(-1) }).
-            to raise_error(AccidentalNotFoundError)
+            to raise_error(Musicology::AccidentalNotFoundError)
         end
       end
     end
@@ -86,7 +87,7 @@ describe AccidentalCollection do
           ])
 
           expect(accidental_collection.find!(:double_flat)).
-            to eq(Accidental.new(nil, :double_flat, 2, "𝄫"))
+            to eq(Musicology::Accidental.new(nil, :double_flat, 2, "𝄫"))
         end
       end
 
@@ -97,7 +98,7 @@ describe AccidentalCollection do
           ])
 
           expect(-> { accidental_collection.find!(:sharp) }).
-            to raise_error(AccidentalNotFoundError)
+            to raise_error(Musicology::AccidentalNotFoundError)
         end
       end
     end

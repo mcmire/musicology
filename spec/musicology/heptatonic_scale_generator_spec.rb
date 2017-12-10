@@ -1,7 +1,7 @@
 require "spec_helper"
-require_relative "../lib/heptatonic_scale_generator"
+require_relative "../../lib/musicology/heptatonic_scale_generator"
 
-describe HeptatonicScaleGenerator do
+describe Musicology::HeptatonicScaleGenerator do
   it "returns a random heptatonic scale" do
     scale = described_class.call
 

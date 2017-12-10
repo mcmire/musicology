@@ -1,17 +1,19 @@
 require "spec_helper"
-require_relative "../lib/accidental"
-require_relative "../lib/accidentals"
+require_relative "../../lib/musicology/accidental"
+require_relative "../../lib/musicology/accidentals"
 
-describe Accidental do
+describe Musicology::Accidental do
   describe "#+" do
     it "returns the accidental N places ahead" do
-      expect(Accidental(:flat) + 2).to eq(Accidental(:sharp))
+      expect(Musicology.Accidental(:flat) + 2).
+        to eq(Musicology.Accidental(:sharp))
     end
   end
 
   describe "#-" do
     it "returns the accidental N places behind" do
-      expect(Accidental(:sharp) - 2).to eq(Accidental(:flat))
+      expect(Musicology.Accidental(:sharp) - 2).
+        to eq(Musicology.Accidental(:flat))
     end
   end
 
@@ -77,7 +79,7 @@ describe Accidental do
     it "returns the class + symbol" do
       accidental = described_class.new(nil, :natural, 0, "♮")
 
-      expect(accidental.to_s).to eq("#<Accidental ♮>")
+      expect(accidental.to_s).to eq("#<Musicology::Accidental ♮>")
     end
   end
 end

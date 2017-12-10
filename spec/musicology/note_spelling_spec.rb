@@ -1,14 +1,14 @@
 require "spec_helper"
-require_relative "../lib/accidentals"
-require_relative "../lib/equivalent_note_spelling_group"
-require_relative "../lib/letters"
-require_relative "../lib/note_spelling"
-require_relative "../lib/note_names"
+require_relative "../../lib/musicology/accidentals"
+require_relative "../../lib/musicology/equivalent_note_spelling_group"
+require_relative "../../lib/musicology/letters"
+require_relative "../../lib/musicology/note_spelling"
+require_relative "../../lib/musicology/note_names"
 
-describe NoteSpelling do
+describe Musicology::NoteSpelling do
   describe "as a method" do
     it "returns the known NoteSpelling that corresponds to the given letter and accidental" do
-      note_spelling = NoteSpelling(:g, :natural)
+      note_spelling = Musicology.NoteSpelling(:g, :natural)
 
       expect(note_spelling).to be_a(described_class)
       expect(note_spelling.letter).to eq(:g)
@@ -29,7 +29,7 @@ describe NoteSpelling do
 
       context "given a NoteSpelling that is an equivalent enharmonic" do
         it "returns true" do
-          note_spelling_group = EquivalentNoteSpellingGroup.new([
+          note_spelling_group = Musicology::EquivalentNoteSpellingGroup.new([
             [:a, :natural],
             [:g, :double_flat],
           ])
@@ -43,13 +43,16 @@ describe NoteSpelling do
         it "returns true" do
           note_spelling = described_class.new(nil, :a, :natural)
 
-          expect(note_spelling).to eq([Letter(:a), Accidental(:natural)])
+          expect(note_spelling).to eq([
+            Musicology.Letter(:a),
+            Musicology.Accidental(:natural),
+          ])
         end
       end
 
       context "given something other than a NoteSpelling" do
         it "returns false" do
-          note_spelling_group = EquivalentNoteSpellingGroup.new([])
+          note_spelling_group = Musicology::EquivalentNoteSpellingGroup.new([])
           note_spelling =
             described_class.new(note_spelling_group, :a, :natural)
 
@@ -59,10 +62,10 @@ describe NoteSpelling do
 
       context "given a different note completely" do
         it "returns false" do
-          note_spelling_group = EquivalentNoteSpellingGroup.new([
+          note_spelling_group = Musicology::EquivalentNoteSpellingGroup.new([
             [:a, :natural],
           ])
-          note_spelling_group2 = EquivalentNoteSpellingGroup.new([
+          note_spelling_group2 = Musicology::EquivalentNoteSpellingGroup.new([
             [:f, :sharp],
           ])
           note_spelling1 = note_spelling_group.find!(:a)
@@ -88,8 +91,8 @@ describe NoteSpelling do
           note_spelling = described_class.new(nil, :a, :natural)
 
           expect(note_spelling).to be_equivalent_to([
-            Letter(:a),
-            Accidental(:natural),
+            Musicology.Letter(:a),
+            Musicology.Accidental(:natural),
           ])
         end
       end
