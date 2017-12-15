@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative "../lib/musicology/heptatonic_scale_generator"
-
-scale = Musicology::HeptatonicScaleGenerator.call
-spelled_notes = scale.notes
-
-puts spelled_notes.map(&:to_s).join(", ")

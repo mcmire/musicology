@@ -28,6 +28,33 @@ describe Musicology::Scale do
     end
   end
 
+  describe "#notes" do
+    context "given a starting note" do
+      it "returns all of the notes in the scale starting from that note" do
+        scale = described_class.new(0b101010110101)
+        anchor = Musicology.NoteSpelling(:a, :natural)
+
+        notes = scale.notes(starting_on: anchor)
+
+        expect(notes.map(&:name)).to eq(
+          ["A", "B", "C♯", "D", "E", "F♯", "G♯"],
+        )
+      end
+    end
+
+    context "given no starting note" do
+      it "returns the notes in the scale starting on C" do
+        scale = described_class.new(0b101010110101)
+
+        notes = scale.notes
+
+        expect(notes.map(&:name)).to eq(
+          ["C", "D", "E", "F", "G", "A", "B"],
+        )
+      end
+    end
+  end
+
   describe "#tones" do
     it "returns the tones represented by the word" do
       scale = described_class.new(0b100010100101)

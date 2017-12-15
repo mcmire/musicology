@@ -1,4 +1,5 @@
-require_relative "heptatonic_scale"
+require_relative "anchored_scale"
+require_relative "note_names"
 require_relative "tones"
 
 module Musicology
@@ -19,6 +20,10 @@ module Musicology
 
     def valid?
       root_tone_on? && !has_large_leaps?
+    end
+
+    def notes(starting_on: Musicology.NoteSpelling(:c, :natural))
+      AnchoredScale.new(self, starting_on).notes
     end
 
     def tones
@@ -55,10 +60,6 @@ module Musicology
 
     def ==(other)
       other.is_a?(self.class) && word == other.word
-    end
-
-    def scale(starting_on: Musicology.NoteSpelling(:c, :natural))
-      HeptatonicScale.new(tones, starting_note: starting_on)
     end
 
     private

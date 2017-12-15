@@ -15,6 +15,10 @@ module Musicology
       @tone = Musicology.Tone(tone)
     end
 
+    def name
+      spelling.to_s
+    end
+
     def ==(other)
       other.is_a?(self.class) &&
         spelling == other.spelling &&

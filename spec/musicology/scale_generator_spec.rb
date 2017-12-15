@@ -12,6 +12,6 @@ describe Musicology::GenerateModalFamilies do
     end
     expect(modal_family.scales.size).to eq(7)
     scale = modal_family.scales.detect { |scale| scale.word == 2741 }
-    expect(scale.scale.note_names).to eq(["C", "D", "E", "F", "G", "A", "B"])
+    expect(scale.notes.map(&:name)).to eq(["C", "D", "E", "F", "G", "A", "B"])
   end
 end
