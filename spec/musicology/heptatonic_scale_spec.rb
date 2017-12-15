@@ -11,7 +11,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:c, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["C", "D", "E", "F", "G", "A", "B"],
         )
       end
@@ -21,7 +21,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:a, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["A", "B", "C♯", "D", "E", "F♯", "G♯"],
         )
       end
@@ -31,7 +31,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:b, :flat)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["B♭", "C", "D", "E♭", "F", "G", "A"],
         )
       end
@@ -41,7 +41,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:f, :sharp)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["F♯", "G♯", "A♯", "B", "C♯", "D♯", "E♯"],
         )
       end
@@ -53,7 +53,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:c, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["C", "D", "E♭", "F", "G", "A♭", "B"],
         )
       end
@@ -63,7 +63,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:a, :natural)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["A", "B", "C", "D", "E", "F", "G♯"],
         )
       end
@@ -73,7 +73,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:b, :flat)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["B♭", "C", "D♭", "E♭", "F", "G♭", "A"],
         )
       end
@@ -83,7 +83,7 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:f, :sharp)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["F♯", "G♯", "A", "B", "C♯", "D", "E♯"],
         )
       end
@@ -93,14 +93,40 @@ describe Musicology::HeptatonicScale do
         starting_note = Musicology.NoteSpelling(:c, :flat)
         scale = described_class.new(tones, starting_note: starting_note)
 
-        expect(spell(scale)).to eq(
+        expect(scale.note_names).to eq(
           ["C♭", "D♭", "E♭", "F♭", "G𝄫", "G♭", "A♭"],
         )
       end
-    end
-  end
 
-  def spell(scale)
-    scale.notes.map { |note| note.spelling.to_s }
+      it "returns the correct notes for a non-heptatonic scale with large intervals" do
+        tones = [0, 4, 8, 11].map { |index| Musicology.Tone(index) }
+        starting_note = Musicology.NoteSpelling(:f, :sharp)
+        scale = described_class.new(tones, starting_note: starting_note)
+
+        expect(scale.note_names).to eq(
+          ["F♯", "A♯", "C𝄪", "E♯"],
+        )
+      end
+
+      it "returns the correct notes for a heptatonic scale with large intervals" do
+        starting_note = Musicology.NoteSpelling(:f, :sharp)
+
+        scale1 = described_class.new(
+          [0, 4, 6, 8, 9, 10, 11],
+          starting_note: starting_note,
+        )
+        scale2 = described_class.new(
+          [0, 6, 7, 8, 9, 10, 11],
+          starting_note: starting_note,
+        )
+
+        expect(scale1.note_names).to eq(
+          ["F♯", "A♯", "B♯", "C𝄪", "D♯", "E", "E♯"],
+        )
+        expect(scale2.note_names).to eq(
+          ["F♯", "B♯", "C♯", "D", "D♯", "E", "E♯"],
+        )
+      end
+    end
   end
 end

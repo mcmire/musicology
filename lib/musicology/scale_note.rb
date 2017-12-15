@@ -1,8 +1,14 @@
+require "forwardable"
+
 require_relative "tones"
 
 module Musicology
   class ScaleNote
+    extend Forwardable
+
     attr_reader :spelling, :tone
+
+    def_delegators :spelling, :kind_of_flat?, :natural?, :kind_of_sharp?
 
     def initialize(spelling, tone)
       @spelling = spelling

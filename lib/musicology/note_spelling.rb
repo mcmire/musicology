@@ -11,6 +11,18 @@ module Musicology
       @accidental = Musicology.Accidental(accidental)
     end
 
+    def kind_of_flat?
+      accidental == :flat || accidental == :double_flat
+    end
+
+    def natural?
+      accidental == :natural
+    end
+
+    def kind_of_sharp?
+      accidental == :sharp || accidental == :double_sharp
+    end
+
     def ==(other)
       equivalent_to?(other) || group.has?(other)
     end
