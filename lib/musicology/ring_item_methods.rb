@@ -26,12 +26,12 @@ module Musicology
       end
     end
 
-    def ==(other)
-      if other.is_a?(self.class)
-        value == other.value && index == other.index
-      else
-        super
-      end
-    end
+    # def ==(other)
+      # if other.is_a?(self.class)
+        # value == other.value && index == other.index
+      # else
+        # super
+      # end
+    # end
   end
 end

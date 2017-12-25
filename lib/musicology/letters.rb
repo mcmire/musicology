@@ -2,11 +2,11 @@ require_relative "ring"
 require_relative "letter"
 
 module Musicology
-  class << self
-    attr_accessor :letters
-  end
+  LETTERS = Ring.new(Letter, :a..:g)
 
-  self.letters = Ring.new(Letter, :a..:g)
+  def self.letters
+    LETTERS
+  end
 
   def self.Letter(value)
     letters.find!(value)

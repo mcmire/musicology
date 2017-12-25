@@ -2,7 +2,7 @@ require_relative "note_spelling"
 require_relative "letters"
 
 module Musicology
-  class EquivalentNoteSpellingGroup
+  class Note
     attr_reader :spellings
 
     def initialize(spellings)
@@ -11,7 +11,15 @@ module Musicology
       end
     end
 
-    def find!(letter_id = nil, &block)
+    def default_name
+      default_spelling.to_s
+    end
+
+    def default_letter
+      default_spelling.letter
+    end
+
+    def find_spelling!(letter_id = nil, &block)
       if block
         spelling = spellings.detect(&block)
       else
@@ -29,7 +37,7 @@ module Musicology
       end
     end
 
-    def has?(given_spelling)
+    def has_spelling?(given_spelling)
       spellings.any? { |spelling| spelling.equivalent_to?(given_spelling) }
     end
 
@@ -37,7 +45,7 @@ module Musicology
       if value.is_a?(self.class)
         spellings == value.spellings
       else
-        has?(value)
+        has_spelling?(value)
       end
     end
 
@@ -51,6 +59,12 @@ module Musicology
 
     def pretty_print(pp)
       Util.pretty_print_without_object_id(self, pp, spellings: spellings)
+    end
+
+    private
+
+    def default_spelling
+      spellings.detect(&:natural?) || spellings.detect(&:sharp?)
     end
   end
 end

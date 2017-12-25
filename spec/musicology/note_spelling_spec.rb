@@ -1,9 +1,9 @@
 require "spec_helper"
 require_relative "../../lib/musicology/accidentals"
-require_relative "../../lib/musicology/equivalent_note_spelling_group"
+require_relative "../../lib/musicology/note"
 require_relative "../../lib/musicology/letters"
 require_relative "../../lib/musicology/note_spelling"
-require_relative "../../lib/musicology/note_names"
+require_relative "../../lib/musicology/notes"
 
 describe Musicology::NoteSpelling do
   describe "as a method" do
@@ -29,13 +29,12 @@ describe Musicology::NoteSpelling do
 
       context "given a NoteSpelling that is an equivalent enharmonic" do
         it "returns true" do
-          note_spelling_group = Musicology::EquivalentNoteSpellingGroup.new([
+          note = Musicology::Note.new([
             [:a, :natural],
             [:g, :double_flat],
           ])
 
-          expect(note_spelling_group.find!(:a)).
-            to eq(note_spelling_group.find!(:g))
+          expect(note.find_spelling!(:a)).to eq(note.find_spelling!(:g))
         end
       end
 
@@ -52,9 +51,9 @@ describe Musicology::NoteSpelling do
 
       context "given something other than a NoteSpelling" do
         it "returns false" do
-          note_spelling_group = Musicology::EquivalentNoteSpellingGroup.new([])
+          note = Musicology::Note.new([])
           note_spelling =
-            described_class.new(note_spelling_group, :a, :natural)
+            described_class.new(note, :a, :natural)
 
           expect(note_spelling).not_to eq(:whatever)
         end
@@ -62,14 +61,14 @@ describe Musicology::NoteSpelling do
 
       context "given a different note completely" do
         it "returns false" do
-          note_spelling_group = Musicology::EquivalentNoteSpellingGroup.new([
+          note = Musicology::Note.new([
             [:a, :natural],
           ])
-          note_spelling_group2 = Musicology::EquivalentNoteSpellingGroup.new([
+          note2 = Musicology::Note.new([
             [:f, :sharp],
           ])
-          note_spelling1 = note_spelling_group.find!(:a)
-          note_spelling2 = note_spelling_group2.find!(:f)
+          note_spelling1 = note.find_spelling!(:a)
+          note_spelling2 = note2.find_spelling!(:f)
 
           expect(note_spelling1).not_to eq(note_spelling2)
         end

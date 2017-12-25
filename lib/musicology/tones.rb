@@ -2,11 +2,11 @@ require_relative "ring"
 require_relative "tone"
 
 module Musicology
-  class << self
-    attr_accessor :tones
-  end
+  TONES = Ring.new(Tone, 0..11)
 
-  self.tones = Ring.new(Tone, 0..11)
+  def self.tones
+    TONES
+  end
 
   def self.Tone(value)
     tones.find!(value)

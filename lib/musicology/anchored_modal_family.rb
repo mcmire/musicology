@@ -1,16 +1,13 @@
-require_relative "anchored_modal_family"
-
 module Musicology
-  class ModalFamily
+  class AnchoredModalFamily
     attr_reader :scales
 
     def initialize(scales)
       @scales = scales
     end
 
-    def anchor_to(note_or_note_spelling)
-      anchored_scale = scales.first.anchor_to(note_or_note_spelling)
-      AnchoredModalFamily.new([anchored_scale] + anchored_scale.modes)
+    def has_note?(note)
+      scales.first.has_note?(note)
     end
 
     def to_s

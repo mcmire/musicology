@@ -32,8 +32,6 @@ module Musicology
       result =
         if args.size == 1
           case args.first
-          when wrapper_class
-            args.first
           when Integer
             items[args.first % size]
           else
@@ -47,9 +45,9 @@ module Musicology
         result
       else
         message =
-          "Couldn't find item by #{args.inspect}.\n" +
+          "Couldn't find #{wrapper_class} by\n#{args.pretty_inspect}\n" +
           "Valid items are:\n" +
-          items.map { |item| "* #{item}" }.join("\n")
+          items.pretty_inspect
         raise ArgumentError.new(message)
       end
     end

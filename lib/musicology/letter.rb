@@ -15,7 +15,10 @@ module Musicology
     end
 
     def pretty_print(pp)
-      Util.pretty_print_without_object_id(self, pp, name: name)
+      pp.object_group(self) do
+        pp.breakable(" ")
+        pp.pp(name)
+      end
     end
   end
 end

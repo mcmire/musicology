@@ -3,10 +3,10 @@ require_relative "letters"
 
 module Musicology
   class NoteSpelling
-    attr_reader :letter, :accidental
+    attr_reader :note, :letter, :accidental
 
-    def initialize(group, letter, accidental)
-      @group = group
+    def initialize(note, letter, accidental)
+      @note = note
       @letter = Musicology.Letter(letter)
       @accidental = Musicology.Accidental(accidental)
     end
@@ -19,12 +19,16 @@ module Musicology
       accidental == :natural
     end
 
+    def sharp?
+      accidental == :sharp
+    end
+
     def kind_of_sharp?
-      accidental == :sharp || accidental == :double_sharp
+      sharp? || accidental == :double_sharp
     end
 
     def ==(other)
-      equivalent_to?(other) || group.has?(other)
+      equivalent_to?(other) || note.has_spelling?(other)
     end
 
     def equivalent_to?(other)
@@ -54,9 +58,5 @@ module Musicology
         accidental: accidental
       )
     end
-
-    private
-
-    attr_reader :group
   end
 end

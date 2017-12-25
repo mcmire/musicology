@@ -1,6 +1,8 @@
 require_relative "anchored_scale"
-require_relative "note_names"
+require_relative "named_scales"
+require_relative "notes"
 require_relative "tones"
+require_relative "bitwise_operations"
 
 module Musicology
   class Scale
@@ -18,12 +20,28 @@ module Musicology
       @word = word
     end
 
+    def names
+      NAMED_SCALES.fetch(word, [])
+    end
+
+    def default_name
+      names.first || ""
+    end
+
+    def popular?
+      POPULAR_SCALES.include?(word)
+    end
+
     def valid?
       root_tone_on? && !has_large_leaps?
     end
 
+    def anchor_to(note)
+      AnchoredScale.new(self, note)
+    end
+
     def notes(starting_on: Musicology.NoteSpelling(:c, :natural))
-      AnchoredScale.new(self, starting_on).notes
+      anchor_to(starting_on).notes
     end
 
     def tones
@@ -40,17 +58,14 @@ module Musicology
     end
 
     def rotate_right
-      rotated_word = (word >> 1) | (word[0] << (NUMBER_OF_BITS - 1))
-      self.class.new(rotated_word)
+      self.class.new(rotate_word_by(1))
     end
 
-    def rotation_of?(other, i = 0)
-      rotated_version = rotate_right
-      self != other && (
-        rotated_version == other || (
-          i < (NUMBER_OF_BITS - 1) &&
-          rotated_version.rotation_of?(other, i + 1)
-        )
+    def rotation_of?(other)
+      BitwiseOperations.rotationally_equivalent?(
+        word,
+        other.word,
+        common_size: NUMBER_OF_BITS,
       )
     end
 
@@ -60,6 +75,21 @@ module Musicology
 
     def ==(other)
       other.is_a?(self.class) && word == other.word
+    end
+
+    def inspect
+      StringIO.new.tap { |io| PP.singleline_pp(self, io) }.string
+    end
+
+    def pretty_print(pp)
+      Util.pretty_print_without_object_id(
+        self,
+        pp,
+        name: name,
+        word: word,
+        word_string: word_string,
+        tones: tones,
+      )
     end
 
     private
@@ -83,7 +113,19 @@ module Musicology
     end
 
     def bits
-      ("%0#{NUMBER_OF_BITS}b" % word).split("").map { |bit| bit == "1" }.reverse
+      word_string.split("").map { |bit| bit == "1" }.reverse
+    end
+
+    def word_string
+      "%0#{NUMBER_OF_BITS}b" % word
+    end
+
+    def rotate_word_by(offset)
+      BitwiseOperations.rotate(
+        word,
+        with_size: NUMBER_OF_BITS,
+        by: offset,
+      )
     end
   end
 end

@@ -29,10 +29,23 @@ describe Musicology::Scale do
   end
 
   describe "#notes" do
-    context "given a starting note" do
-      it "returns all of the notes in the scale starting from that note" do
+    context "given a NoteSpelling" do
+      it "returns all of the notes in the scale starting from that note, as correct NoteSpellings" do
         scale = described_class.new(0b101010110101)
         anchor = Musicology.NoteSpelling(:a, :natural)
+
+        notes = scale.notes(starting_on: anchor)
+
+        expect(notes.map(&:name)).to eq(
+          ["A", "B", "C♯", "D", "E", "F♯", "G♯"],
+        )
+      end
+    end
+
+    context "given a Note" do
+      it "returns all of the notes in the scale starting from that note, as Notes" do
+        scale = described_class.new(0b101010110101)
+        anchor = Musicology.Note(:a, :natural)
 
         notes = scale.notes(starting_on: anchor)
 
@@ -95,7 +108,7 @@ describe Musicology::Scale do
   end
 
   describe "#rotate_right" do
-    it "rotates the Scale right by 1 tone" do
+    it "bitwise-rotates the scale to the right" do
       scale = described_class.new(0b000101001011)
       rotated_scale = described_class.new(0b100010100101)
 

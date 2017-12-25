@@ -31,12 +31,25 @@ describe Musicology::Ring do
       end
     end
 
-    context "given the wrapped object" do
-      it "returns the wrapped object itself" do
+    context "given an instance of the wrapped class obtained from the same ring" do
+      it "returns that instance" do
         ring = described_class.new(TestRingItemWrapper, ["a", "b"])
         ring_item = ring.find!("b")
 
         expect(ring.find!(ring_item)).to be(ring_item)
+      end
+    end
+
+    context "given an instance of the wrapped class obtained from a different ring" do
+      it "returns the wrapped object itself" do
+        ring1 = described_class.new(TestRingItemWrapper, ["some value"])
+        ring_item1 = ring1.find!("some value")
+        ring2 = described_class.new(TestRingItemWrapper, ["some value"])
+        ring_item2 = ring2.find!("some value")
+
+        found_ring_item = ring2.find!(ring_item1)
+
+        expect(found_ring_item).to be(ring_item2)
       end
     end
   end
